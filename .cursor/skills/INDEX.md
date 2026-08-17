@@ -10,6 +10,7 @@ Load this index first. Do not load every skill. Choose the smallest matching wor
 | switch-project | change the active drawer | status |
 | register-project | add a git repo to the studio | switch-project |
 | studio-run | start or stop a product stack | status |
+| studio-dashboard | Hola Amigo / dashboard / open the studio page | — |
 
 ## Craft (active project)
 

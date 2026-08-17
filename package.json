@@ -8,7 +8,9 @@
   },
   "scripts": {
     "amigo": "node bin/amigo.mjs",
-    "test": "node --test test/check.mjs"
+    "dashboard:dev": "npm run dev --prefix dashboard",
+    "dashboard:build": "npm run build --prefix dashboard",
+    "test": "node --test test/check.mjs test/dashboard.mjs"
   },
   "engines": {
     "node": ">=22"

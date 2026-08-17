@@ -11,6 +11,8 @@ Onboarding and commands live in the [README](../README.md). This file is the dai
 - Active product: `state/current.yaml` (`none` means Studio)
 - Named product in a message wins over the active one
 - Product edits: `projects/<active>/` — studio edits: CLI, catalog, rules, skills
+- Dashboard: say **Hola Amigo** or `/dashboard` — `http://127.0.0.1:3999/`
+- After UI edits: `npm run dashboard:build`. Live UI: sidecar up, then `npm run dashboard:dev` (3998)
 
 Do not open Assidua Ops as a second Cursor window for day-to-day work. Open the studio. Talk to Amigo.
 

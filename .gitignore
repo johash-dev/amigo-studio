@@ -9,3 +9,5 @@ state/logs/
 .env
 .DS_Store
 Thumbs.db
+dashboard/node_modules/
+dashboard/dist/

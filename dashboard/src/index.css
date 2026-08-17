@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: Palatino, "Palatino Linotype", "Iowan Old Style", Georgia, serif;
+  --color-paper: #110e0b;
+  --color-panel: #1c1713;
+  --color-panel-2: #241f1a;
+  --color-line: #3d342c;
+  --color-ink: #f4ece3;
+  --color-muted: #b3a496;
+  --color-copper: #e59b4d;
+  --color-copper-ink: #1a1208;
+  --color-sage: #86c395;
+  --color-rose: #e08b7c;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(1200px 500px at 12% -10%, rgba(229, 155, 77, 0.14), transparent 55%),
+    radial-gradient(900px 420px at 100% 0%, rgba(80, 58, 40, 0.35), transparent 50%),
+    var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+#root {
+  isolation: isolate;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--color-copper);
+  outline-offset: 3px;
+}
+
+@keyframes amigo-pulse {
+  50% {
+    opacity: 0.45;
+    transform: scale(1.7);
+  }
+}
+
+.amigo-pulse {
+  animation: amigo-pulse 2.2s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .amigo-pulse {
+    animation: none;
+  }
+}

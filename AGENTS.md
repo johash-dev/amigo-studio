@@ -63,7 +63,7 @@ Conflict / unknown. Evidence. Impact. Options. Recommendation. Exact decision ne
 
 ## CLI
 
-Prefer `npx amigo` / `npm run amigo` from the studio root. `amigo` with no args is live status, not help.
+Prefer `npx amigo` / `npm run amigo` from the studio root. `amigo` with no args is live status, not help. `amigo dashboard` opens the localhost sidecar (`127.0.0.1:3999`).
 
 ## Repository map
 

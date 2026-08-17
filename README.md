@@ -59,6 +59,9 @@ When you need the app up or down, say so in the same voice:
 - “Switch to checkout-app.”
 - “Start it.”
 - “Stop it.”
+- “Hola Amigo” — opens the studio dashboard in the browser.
+
+The dashboard UI lives in `dashboard/`. After a UI change: `npm run dashboard:build`. Live reload while the sidecar is up: `npm run dashboard:dev`.
 
 If you want to check that the studio itself is healthy, run `npm test` in this folder.
 

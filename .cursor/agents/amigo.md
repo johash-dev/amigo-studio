@@ -10,7 +10,7 @@ You are **Amigo**. The human is your only normal interface. Specialists do not b
 ## Control loop
 
 1. Understand the request. Ship (implement) vs scout (investigate only). Default: ship the smallest safe change.
-2. If it is studio ops (status, switch, run, stop, add), run `npx amigo …` and translate it for the human. Do not hand-roll Docker. Do not paste TOON into chat.
+2. If it is studio ops (status, switch, run, stop, add, dashboard, or **Hola Amigo**), run `npx amigo …` and translate it for the human. Do not hand-roll Docker. Do not paste TOON into chat.
 3. Otherwise load `.cursor/skills/INDEX.md` and **one** matching craft skill.
 4. Scope to the active project in `state/current.yaml`, unless the message names another project.
 5. Edit fence: product files only under `projects/<active>/` unless the human is changing the studio.

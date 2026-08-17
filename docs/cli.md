@@ -12,11 +12,13 @@ The catalog (`catalog.yaml`) is the source of truth for ports. Amigo does not gu
 | `amigo run [name]` | Start named or active product |
 | `amigo stop [name]` | Stop that product’s Node/pnpm tree |
 | `amigo logs [name] [--full]` | Tail logs |
+| `amigo dashboard` | Start the localhost dashboard and open the browser |
+| `amigo dashboard stop` | Stop the dashboard sidecar (not product stacks) |
 | `amigo help [subcommand]` | Short help |
 
 Unknown flags fail. No prompts. Switching to the already-active product is success.
 
-Slash commands `/status` `/switch` `/run` `/stop` `/add` call the same CLI.
+Slash commands `/status` `/switch` `/run` `/stop` `/add` `/dashboard` call the same CLI.
 
 ## Ports
 
@@ -28,6 +30,8 @@ Slash commands `/status` `/switch` `/run` `/stop` `/add` call the same CLI.
 ## Start / stop
 
 Start runs the catalog `start` command in the product directory, detached, with pid under `state/run/<name>` and logs under `state/logs/<name>.log`.
+
+**`amigo dashboard`** listens on **127.0.0.1:3999** only. The page is a Vite+React app in `dashboard/`; the sidecar serves the built files from `dashboard/dist` plus `/api`. It is not a catalog product. UI work: `npm run dashboard:build`, or `npm run dashboard:dev` (port 3998, proxies `/api` to 3999). Product `amigo stop` does not stop the sidecar.
 
 **`amigo stop` stops the tracked Node/pnpm process tree. Compose Postgres stays up.** That matches leaving a local database running between sessions. There is no `amigo stop --db` yet.
 
@@ -52,6 +56,7 @@ Or always: `npx amigo` / `npm run amigo`.
 AGENTS.md            how Amigo is instructed
 catalog.yaml         products and ports
 bin/amigo.mjs        CLI
+dashboard/           Vite+React UI for amigo dashboard
 projects/            nested checkouts (gitignored except .gitkeep)
 state/current.yaml   active product (`none` = Studio)
 docs/OWNER.md        daily flow at this desk

@@ -2,7 +2,7 @@
 import { existsSync, readFileSync, rmSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { join } from 'node:path';
-import { allocatePorts, applyCatalogEnv } from '../lib/ports.mjs';
+import { allocatePorts } from '../lib/ports.mjs';
 import {
   AmigoError,
   HELP,
@@ -11,29 +11,19 @@ import {
   renderOutput,
   statusModel,
 } from '../lib/format.mjs';
+import { ensureDashboard, serveDashboard, stopDashboard } from '../lib/dashboard.mjs';
+import { runningMap, startProject, stopProject } from '../lib/lifecycle.mjs';
 import {
-  clearRunRecord,
   findStudioRoot,
   loadCatalog,
   loadCurrent,
   logPath,
-  projectNames,
-  readRunRecord,
   requireProject,
   resolveNamedOrActive,
-  resolveProjectPath,
   saveCatalog,
   saveCurrent,
-  writeRunRecord,
 } from '../lib/studio.mjs';
-import {
-  isAlive,
-  killTree,
-  probeHealth,
-  readDotEnv,
-  spawnDetached,
-  tailFile,
-} from '../lib/process.mjs';
+import { probeHealth, tailFile } from '../lib/process.mjs';
 
 function parseArgs(argv) {
   const args = argv.slice(2);
@@ -56,22 +46,6 @@ function parseArgs(argv) {
     }
   }
   return { cmd, positionals, flags };
-}
-
-function runningMap(root, catalog) {
-  const map = {};
-  for (const name of projectNames(catalog)) {
-    map[name] = projectIsRunning(root, name);
-  }
-  return map;
-}
-
-function projectIsRunning(root, name) {
-  const rec = readRunRecord(root, name);
-  if (!rec?.pid) return false;
-  if (isAlive(rec.pid)) return true;
-  clearRunRecord(root, name);
-  return false;
 }
 
 function nameFromGitUrl(url) {
@@ -162,60 +136,42 @@ function cmdAdd(root, url, nameArg) {
 function cmdRun(root, nameArg) {
   const catalog = loadCatalog(root);
   const current = loadCurrent(root);
-  const { name, row } = resolveNamedOrActive(catalog, current, nameArg);
-  const dir = resolveProjectPath(root, row);
-  if (!dir || !existsSync(dir)) {
-    throw new AmigoError('project path missing', {
-      name,
-      path: dir || row.path,
-      next: 'confirm the product checkout exists, then amigo run',
-    });
-  }
-  if (projectIsRunning(root, name)) {
-    process.stdout.write(
-      renderOutput({ name, running: true, already: true }, nextHint({ command: 'run', projects: catalog.projects, name })),
-    );
-    return;
-  }
-  if (!row.start) {
-    throw new AmigoError('no start command', { name, next: 'set start in catalog.yaml' });
-  }
-  const env = applyCatalogEnv(row.ports || {}, readDotEnv(dir));
-  const pid = spawnDetached({
-    command: row.start,
-    cwd: dir,
-    env,
-    logPath: logPath(root, name),
-    extraPath: join(root, 'bin', 'win-shims'),
-  });
-  writeRunRecord(root, name, {
-    pid,
-    startedAt: new Date().toISOString(),
-    command: row.start,
-  });
-  process.stdout.write(
-    renderOutput(
-      { name, running: true, pid, web: row.ports?.web, api: row.ports?.api },
-      nextHint({ command: 'run', projects: catalog.projects, name }),
-    ),
-  );
+  const { name } = resolveNamedOrActive(catalog, current, nameArg);
+  const result = startProject(root, name);
+  const model = result.already
+    ? { name: result.name, running: true, already: true }
+    : { name: result.name, running: true, pid: result.pid, web: result.web, api: result.api };
+  process.stdout.write(renderOutput(model, nextHint({ command: 'run', projects: catalog.projects, name })));
 }
 
 function cmdStop(root, nameArg) {
   const catalog = loadCatalog(root);
   const current = loadCurrent(root);
   const { name } = resolveNamedOrActive(catalog, current, nameArg);
-  const rec = readRunRecord(root, name);
-  const pid = rec?.pid;
-  const wasRunning = pid ? isAlive(pid) : false;
-  if (wasRunning) killTree(pid);
-  clearRunRecord(root, name);
-  process.stdout.write(
-    renderOutput(
-      { name, running: false, stopped: wasRunning },
-      nextHint({ command: 'stop', name }),
-    ),
-  );
+  const result = stopProject(root, name);
+  process.stdout.write(renderOutput(result, nextHint({ command: 'stop', name })));
+}
+
+async function cmdDashboard(root, action) {
+  if (!action) {
+    const result = await ensureDashboard(root);
+    process.stdout.write(
+      renderOutput(
+        { dashboard: true, running: true, already: result.already, port: result.port, url: result.url },
+        `open ${result.url}`,
+      ),
+    );
+    return;
+  }
+  if (action === 'stop') {
+    process.stdout.write(renderOutput(stopDashboard(root), 'amigo dashboard'));
+    return;
+  }
+  if (action === 'serve') {
+    await serveDashboard(root);
+    return;
+  }
+  throw new AmigoError('unknown dashboard action', { action, next: 'amigo help dashboard' });
 }
 
 function cmdLogs(root, nameArg, full) {
@@ -269,6 +225,9 @@ async function main() {
       return;
     case 'logs':
       cmdLogs(root, positionals[0], flags.full);
+      return;
+    case 'dashboard':
+      await cmdDashboard(root, positionals[0]);
       return;
     default:
       throw new AmigoError('unknown command', { command: cmd, next: 'amigo help' });
