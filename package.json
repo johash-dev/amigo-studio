@@ -1,0 +1,20 @@
+{
+  "name": "amigo-studio",
+  "private": true,
+  "type": "module",
+  "description": "Amigo Studio host: catalog, CLI, and Cursor agent layer for nested product repos.",
+  "bin": {
+    "amigo": "./bin/amigo.mjs"
+  },
+  "scripts": {
+    "amigo": "node bin/amigo.mjs",
+    "test": "node --test test/check.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@toon-format/toon": "^4.1.1",
+    "yaml": "^2.9.0"
+  }
+}

@@ -1,0 +1,13 @@
+# Authoritative project registry. Amigo does not guess ports.
+# Register a product with: amigo add <git-url> [name]
+projects:
+  assidua-ops:
+    path: projects/assidua-ops
+    origin: https://github.com/johash-dev/assidua-ops.git
+    ports:
+      web: 4000
+      api: 4001
+      postgres: 5433
+    health: http://localhost:4001/api/health
+    start: docker compose up -d && pnpm install && pnpm db:migrate && pnpm dev
+    stop: null

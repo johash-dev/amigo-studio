@@ -1,0 +1,11 @@
+node_modules/
+projects/*
+!projects/.gitkeep
+projects/**/.git
+
+state/run/
+state/logs/
+*.log
+.env
+.DS_Store
+Thumbs.db
