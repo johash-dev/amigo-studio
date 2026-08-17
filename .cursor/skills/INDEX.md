@@ -21,6 +21,7 @@ Load this index first. Do not load every skill. Choose the smallest matching wor
 | architecture-audit | check a feature against project architecture | code-review |
 | feature-specification | implementation-ready contract | ui-interaction-design, implementation-planning |
 | ui-interaction-design | screens, flows, roles, states | implementation-planning |
+| content-writing | README, onboarding, human-facing docs | — |
 | implementation-planning | small dependency-aware plan | vertical-slice-implementation |
 | vertical-slice-implementation | one end-to-end capability | testing-validation |
 | minimal-change-engineering | keep the diff small | — (pair with any implement/fix skill) |

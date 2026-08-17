@@ -184,3 +184,27 @@ test('owner reply contract translates CLI instead of pasting TOON', () => {
   assert.match(status, /Translate that output into Owner chrome/);
   assert.doesNotMatch(status, /Report the CLI output/);
 });
+
+test('README is for any user, not this machine', () => {
+  const readme = readFileSync(join(root, 'README.md'), 'utf8');
+  assert.match(readme, /Talk to \*\*Amigo\*\*/);
+  assert.match(readme, /docs\/cli\.md/);
+  assert.doesNotMatch(readme, /C:\\Users\\Admin/);
+  assert.doesNotMatch(readme, /projects: 0/);
+  assert.doesNotMatch(readme, /not a rename of Assidua/);
+  assert.doesNotMatch(readme, /switch to studio/i);
+  assert.doesNotMatch(readme, /change Amigo/i);
+  assert.doesNotMatch(readme, /two products can be up/i);
+});
+
+test('content-writing is in the studio workflow', () => {
+  const index = readFileSync(join(root, '.cursor/skills/INDEX.md'), 'utf8');
+  assert.match(index, /content-writing/);
+  const writer = readFileSync(join(root, '.cursor/agents/writer.md'), 'utf8');
+  assert.match(writer, /Not Owner-facing/);
+  assert.match(writer, /content-writing/);
+  const skill = readFileSync(join(root, '.cursor/skills/content-writing/SKILL.md'), 'utf8');
+  assert.match(skill, /Name the \*\*reader\*\*/);
+  const amigo = readFileSync(join(root, '.cursor/agents/amigo.md'), 'utf8');
+  assert.match(amigo, /writer/);
+});

@@ -1,40 +1,32 @@
 # Owner flow
 
-You talk to **Amigo**. You do not talk to Requirements, Architect, Builder, or the other specialists unless you explicitly want to.
+You talk to **Amigo**. Specialists stay behind Amigo unless you ask for one by name.
 
-## Desk and drawers
+Onboarding and commands live in the [README](../README.md). This file is the daily map for **this** desk.
 
-Amigo Studio is the desk. Each git project under `projects/` is a drawer.
+## This desk
 
-- One Cursor window on `C:\Users\Admin\Amigo Studio`
-- One active drawer: `state/current.yaml`
-- Named project in a message wins over the active drawer
-- Product edits belong under `projects/<active>/` unless you are changing the studio itself (CLI, catalog, rules, skills)
+- Cursor window: this Amigo Studio checkout
+- Registered product: `assidua-ops` (ports 4000 / 4001 / 5433)
+- Active product: `state/current.yaml` (`none` means Studio)
+- Named product in a message wins over the active one
+- Product edits: `projects/<active>/` — studio edits: CLI, catalog, rules, skills
+
+Do not open Assidua Ops as a second Cursor window for day-to-day work. Open the studio. Talk to Amigo.
 
 ## Switch
 
-“Switch to azend-lms” or `/switch azend-lms` or `amigo switch azend-lms`.
+- “Switch to assidua-ops” — later “fix the test” means Assidua Ops
+- “Switch to studio” or `amigo switch none` — later product edits stay off until you name a product again
 
-Later “fix the test” means azend-lms.
-
-“Switch to studio” or `amigo switch none` leaves the product drawer. Later product edits stay off until you name a project again.
-
-## Parallel run
-
-Two products can be up at once on isolated port blocks.
-
-- `amigo run assidua-ops` → 4000 / 4001 / 5433
-- `amigo run azend-lms` → 4100 / 4101 / 5434
-- `amigo stop azend-lms` leaves Assidua Ops running
-
-Postgres for a product stays up after `amigo stop` (Compose is not torn down).
+A second product would get the next port block (4100 / 4101 / 5434). Stopping one leaves the other running. Postgres stays up after `amigo stop`.
 
 ## Ship vs scout
 
 - **Ship** — make the change, with evidence
 - **Scout** — read, report, do not edit
 
-If you do not say which, Amigo ships the smallest safe change for the active drawer.
+If you do not say which, Amigo ships the smallest safe change for the active product (or the studio, when you are on Studio).
 
 ## What Amigo replies look like
 

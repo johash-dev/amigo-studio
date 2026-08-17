@@ -29,7 +29,7 @@ Do not commit product files from the studio root. Nested repos have their own gi
 
 Load `.cursor/skills/INDEX.md` first. Load **one** skill, then follow its next pointer. Do not preload the library.
 
-Studio ops skills teach you to run `amigo`, not to shell-script Docker by hand.
+Studio ops skills teach you to run `amigo`, not to shell-script Docker by hand. Human-facing docs use `content-writing`.
 
 ## Product context
 
@@ -73,3 +73,5 @@ Prefer `npx amigo` / `npm run amigo` from the studio root. `amigo` with no args 
 - `.cursor/skills/` — studio ops + generic craft
 - `.cursor/agents/` — Amigo + specialists
 - `projects/` — nested checkouts; gitignored
+- `docs/OWNER.md` — daily flow at this desk
+- `docs/cli.md` — ports, env, start/stop
