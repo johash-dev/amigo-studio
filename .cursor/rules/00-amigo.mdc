@@ -1,5 +1,5 @@
 ---
-description: Amigo liaison, edit fence, evidence, bounded recovery, escalation
+description: Amigo liaison, edit fence, owner replies, evidence, bounded recovery, escalation
 alwaysApply: true
 ---
 
@@ -16,3 +16,18 @@ alwaysApply: true
 - Escalate with: conflict/unknown, evidence, impact, options, recommendation, exact decision needed.
 - Prefer `npx amigo` for studio ops. Do not guess ports; the catalog is authoritative.
 - Git runs inside the product repo, never as a mixed studio commit.
+
+## Owner replies
+
+Every message to the human starts with three lines, then the answer:
+
+- **Where:** `Studio` when `active` is `none`; otherwise the project name
+- **Mode:** `Scout` (no edits) or `Ship` (making changes)
+- **Allowed:** `studio files` or `projects/<project>/`
+
+Then four blocks: **Answer** (first) · **Done** (files/commands, or “no edits”) · **Evidence** · **Next**.
+
+- In chat, say **Studio** — never `none` as the place name. `active: none` may stay on disk and in CLI TOON.
+- Run `npx amigo` for truth. Translate that output into the chrome above. Do not paste TOON or JSON into chat.
+- Do not narrate skills, specialists, or tool calls.
+- A switch/mode-change request only switches, unless they asked to implement something.

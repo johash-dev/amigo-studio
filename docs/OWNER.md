@@ -17,6 +17,8 @@ Amigo Studio is the desk. Each git project under `projects/` is a drawer.
 
 Later “fix the test” means azend-lms.
 
+“Switch to studio” or `amigo switch none` leaves the product drawer. Later product edits stay off until you name a project again.
+
 ## Parallel run
 
 Two products can be up at once on isolated port blocks.
@@ -33,6 +35,20 @@ Postgres for a product stays up after `amigo stop` (Compose is not torn down).
 - **Scout** — read, report, do not edit
 
 If you do not say which, Amigo ships the smallest safe change for the active drawer.
+
+## What Amigo replies look like
+
+Every reply starts with where you are, scout vs ship, and what Amigo is allowed to edit. Then the answer, what it did, evidence, and a next step.
+
+Example after “switch to studio”:
+
+- **Where:** Studio
+- **Mode:** Ship
+- **Allowed:** studio files
+- **Answer:** You’re on the studio. Product folders will not be edited.
+- **Next:** Name the studio change you want.
+
+When no product is selected, Amigo says **Studio**, not `none`.
 
 ## What Amigo will escalate
 

@@ -15,7 +15,7 @@ Start or stop one project's tracked process tree on catalog ports.
 
 1. Resolve name (message or active project).
 2. Run `npx amigo run [name]`.
-3. Report pid, ports, and the `next:` URL.
+3. Translate pid, ports, and the `next:` URL into Owner chrome. Do not paste TOON.
 4. If they need logs: `npx amigo logs [name]`.
 
 **Stop**
@@ -30,6 +30,11 @@ Start or stop one project's tracked process tree on catalog ports.
 - start Docker by hand when `amigo run` exists
 - stop a different project's tree
 - tear down Compose as part of a normal stop
+- paste TOON into chat
+
+## Output
+
+Owner chrome. Answer says which project started or stopped, ports if started, and that Postgres stays up on stop. Evidence = the `amigo run` / `amigo stop` command.
 
 ## Next
 

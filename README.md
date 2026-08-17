@@ -45,7 +45,7 @@ On Windows, `amigo run` puts `bin/win-shims` on PATH so nested `pnpm` scripts wo
 | Command | What it does |
 | --- | --- |
 | `amigo` / `amigo status` | Live status (not a help page) |
-| `amigo switch <name>` | Set the active drawer |
+| `amigo switch <name>` | Set the active drawer (`none` / `studio` leaves it) |
 | `amigo add <git-url> [name]` | Clone into `projects/<name>`, assign ports, do not start |
 | `amigo run [name]` | Start named or active project |
 | `amigo stop [name]` | Stop that project’s Node/pnpm tree |

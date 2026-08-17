@@ -13,7 +13,7 @@ Add a drawer. Do not start it.
 
 1. Take `<git-url>` and optional `[name]`.
 2. Run `npx amigo add <git-url> [name]` from the studio root.
-3. Report the assigned port block from the CLI.
+3. Translate the assigned port block into Owner chrome. Do not paste TOON.
 4. Remind: catalog ports win over the product's `.env.example` so two stacks can run together.
 
 ## Do not
@@ -22,6 +22,11 @@ Add a drawer. Do not start it.
 - start the app (`amigo add` does not run)
 - restructure the product into `apps/<product>/`
 - add a second invented product for demos
+- paste TOON into chat
+
+## Output
+
+Owner chrome. Answer names the new project and its web / api / postgres ports. Remind that catalog ports win over `.env.example`.
 
 ## Next
 

@@ -21,6 +21,8 @@ Every skill should have:
 
 Keep `SKILL.md` focused. Move detailed references, assets or scripts into subdirectories when necessary.
 
+Owner-facing skill output follows the Owner chrome in `00-amigo.mdc`. Do not paste CLI TOON into chat.
+
 Skills should be:
 
 - single-purpose

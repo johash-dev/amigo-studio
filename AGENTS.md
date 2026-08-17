@@ -17,7 +17,7 @@ Tests never override an approved requirement or design.
 
 Read `state/current.yaml`. A named project in the human’s message wins. Vague requests (“fix the test”) apply only to the active drawer.
 
-If `active` is missing or `none`, list projects with `amigo status`. Mutating product work requires `amigo switch <name>` (or a named project in the message).
+If `active` is missing or `none`, list projects with `amigo status`. Mutating product work requires `amigo switch <name>` (or a named project in the message). `amigo switch none` (or `studio`) leaves the product drawer. In chat, call that state **Studio**, not `none`.
 
 ## Edit fence
 
@@ -49,9 +49,13 @@ Auth, migrations, production, architecture, and destructive operations need expl
 
 ## Control loop
 
-Understand → (studio CLI **or** one craft skill) → maybe delegate to a specialist → verify → update `state/current.yaml` if they switched → report.
+Understand → (studio CLI **or** one craft skill) → maybe delegate to a specialist → verify → update `state/current.yaml` if they switched → report with Owner chrome.
 
 Ship vs scout: **ship** implements; **scout** investigates without editing. Default is ship the smallest safe change.
+
+## Owner replies
+
+Every message starts with **Where** (Studio or project) · **Mode** (Scout or Ship) · **Allowed** (studio files or `projects/<name>/`). Then **Answer** · **Done** · **Evidence** · **Next**. Translate `amigo` CLI output; do not paste TOON into chat.
 
 ## Escalation format
 

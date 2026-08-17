@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
@@ -92,6 +92,56 @@ test('amigo switch refuses unknown names', () => {
   assert.match(text, /not-a-project/);
 });
 
+test('amigo switch none and studio leave the product drawer', () => {
+  const tmp = mkdtempSync(join(tmpdir(), 'amigo-desk-'));
+  mkdirSync(join(tmp, 'state'), { recursive: true });
+  writeFileSync(
+    join(tmp, 'catalog.yaml'),
+    `projects:
+  assidua-ops:
+    path: projects/assidua-ops
+    origin: https://example.invalid/assidua-ops.git
+    ports:
+      web: 4000
+      api: 4001
+      postgres: 5433
+    health: null
+    start: pnpm dev
+    stop: null
+`,
+  );
+  writeFileSync(join(tmp, 'state', 'current.yaml'), 'active: assidua-ops\n');
+  const env = { ...process.env, AMIGO_STUDIO_ROOT: tmp };
+
+  const studio = spawnSync(process.execPath, [bin, 'switch', 'studio'], {
+    encoding: 'utf8',
+    cwd: tmp,
+    env,
+  });
+  assert.equal(studio.status, 0, studio.stderr);
+  assert.match(studio.stdout, /switched: none/);
+  assert.match(studio.stdout, /next: amigo status/);
+  assert.match(readFileSync(join(tmp, 'state', 'current.yaml'), 'utf8'), /active: none/);
+
+  writeFileSync(join(tmp, 'state', 'current.yaml'), 'active: assidua-ops\n');
+  const none = spawnSync(process.execPath, [bin, 'switch', 'none'], {
+    encoding: 'utf8',
+    cwd: tmp,
+    env,
+  });
+  assert.equal(none.status, 0, none.stderr);
+  assert.match(none.stdout, /switched: none/);
+  assert.match(readFileSync(join(tmp, 'state', 'current.yaml'), 'utf8'), /active: none/);
+
+  const again = spawnSync(process.execPath, [bin, 'switch', 'studio'], {
+    encoding: 'utf8',
+    cwd: tmp,
+    env,
+  });
+  assert.equal(again.status, 0, again.stderr);
+  assert.match(again.stdout, /already: true/);
+});
+
 test('amigo status with one fixture project shows name, ports, active', () => {
   const tmp = mkdtempSync(join(tmpdir(), 'amigo-'));
   mkdirSync(join(tmp, 'state'), { recursive: true });
@@ -121,4 +171,16 @@ test('amigo status with one fixture project shows name, ports, active', () => {
   assert.match(result.stdout, /4000/);
   assert.match(result.stdout, /4001/);
   assert.match(result.stdout, /active/);
+});
+
+test('owner reply contract translates CLI instead of pasting TOON', () => {
+  const rule = readFileSync(join(root, '.cursor/rules/00-amigo.mdc'), 'utf8');
+  assert.match(rule, /\*\*Where:\*\*/);
+  assert.match(rule, /\*\*Mode:\*\*/);
+  assert.match(rule, /\*\*Allowed:\*\*/);
+  assert.match(rule, /say \*\*Studio\*\*/i);
+  assert.match(rule, /Do not paste TOON/);
+  const status = readFileSync(join(root, '.cursor/skills/status/SKILL.md'), 'utf8');
+  assert.match(status, /Translate that output into Owner chrome/);
+  assert.doesNotMatch(status, /Report the CLI output/);
 });

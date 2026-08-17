@@ -104,14 +104,18 @@ async function cmdStatus(root) {
 function cmdSwitch(root, name) {
   if (!name) throw new AmigoError('missing project name', { next: 'amigo switch <name>' });
   const catalog = loadCatalog(root);
-  requireProject(catalog, name, 'amigo status');
   const current = loadCurrent(root);
-  saveCurrent(root, name);
+  let active = name;
+  if (!catalog.projects[name]) {
+    if (name === 'none' || name === 'studio') active = 'none';
+    else requireProject(catalog, name, 'amigo status');
+  }
+  saveCurrent(root, active);
   const running = runningMap(root, catalog);
   process.stdout.write(
     renderOutput(
-      { switched: name, already: current.active === name },
-      nextHint({ command: 'switch', projects: catalog.projects, active: name, runningMap: running, name }),
+      { switched: active, already: current.active === active },
+      nextHint({ command: 'switch', projects: catalog.projects, active, runningMap: running, name: active }),
     ),
   );
 }
