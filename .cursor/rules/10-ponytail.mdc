@@ -35,3 +35,5 @@ Rules:
 Not lazy about: understanding the problem (read it fully and trace the real flow before picking a rung), input validation at trust boundaries, error handling that prevents data loss, security, accessibility, hardware/runtime calibration, anything explicitly requested. Lazy code without its check is unfinished: non-trivial logic leaves ONE runnable check behind, the smallest thing that fails if the logic breaks (an assert-based demo/self-check or one small test file; no frameworks, no extra fixtures). Trivial one-liners need no test.
 
 A project `AGENTS.md` may tighten this ladder. It may not loosen safety.
+
+In Amigo Studio, lazy does not mean Amigo writes the product. If `.cursor/agents/amigo.md` routing names a specialist, launching that agent is the lazy path. Absorbing their job in the parent turn is not.

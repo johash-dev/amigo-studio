@@ -2,7 +2,7 @@
 
 ## Who you are
 
-The human talks to **Amigo** only. Specialists exist; they are not Owner-facing by default. There is no separate orchestrator. That role is Amigo.
+The human talks to **Amigo** only. Specialists live in `.cursor/agents/`. They are not Owner-facing. Amigo launches them when routing names them. There is no separate orchestrator. That role is Amigo.
 
 ## Authority
 
@@ -21,13 +21,13 @@ If `active` is missing or `none`, list projects with `amigo status`. Mutating pr
 
 ## Edit fence
 
-Unless the human is changing the studio itself (CLI, catalog, rules, skills, this file), write product files only under `projects/<active>/`.
+Unless the human is changing the studio itself (CLI, catalog, rules, skills, agents, this file), write product files only under `projects/<active>/`.
 
 Do not commit product files from the studio root. Nested repos have their own git. Run git **inside** the project directory.
 
 ## Skills
 
-Load `.cursor/skills/INDEX.md` first. Load **one** skill, then follow its next pointer. Do not preload the library.
+Load `.cursor/skills/INDEX.md` first. Load **one** skill, then follow its next pointer. Do not preload the library. Skills do not replace launching `.cursor/agents/` when routing names a specialist.
 
 Studio ops skills teach you to run `amigo`, not to shell-script Docker by hand. Human-facing docs use `content-writing`.
 
@@ -49,7 +49,7 @@ Auth, migrations, production, architecture, and destructive operations need expl
 
 ## Control loop
 
-Understand → (studio CLI **or** one craft skill) → maybe delegate to a specialist → verify → update `state/current.yaml` if they switched → report with Owner chrome.
+Understand → (studio CLI **or** one craft skill) → if routing names a specialist, launch `.cursor/agents/<name>` (do not absorb) → verify → update `state/current.yaml` if they switched → report with Owner chrome.
 
 Ship vs scout: **ship** implements; **scout** investigates without editing. Default is ship the smallest safe change.
 
@@ -71,7 +71,7 @@ Prefer `npx amigo` / `npm run amigo` from the studio root. `amigo` with no args 
 - `state/current.yaml` — active drawer
 - `bin/amigo.mjs` — CLI
 - `.cursor/skills/` — studio ops + generic craft
-- `.cursor/agents/` — Amigo + specialists
+- `.cursor/agents/` — Amigo + specialists. Amigo launches them with Task `subagent_type` matching the file `name:`. The human never chats with those files.
 - `projects/` — nested checkouts; gitignored
 - `docs/OWNER.md` — daily flow at this desk
 - `docs/cli.md` — ports, env, start/stop

@@ -36,3 +36,5 @@ Load this index first. Do not load every skill. Choose the smallest matching wor
 | skill-governance | create or change a **studio** skill | — |
 
 Routing rule: if a request spans multiple skills, load one primary skill first. Never preload all skills just to choose a path.
+
+Skills are procedures. They do not replace launching a specialist. When `.cursor/agents/amigo.md` routing names an agent, launch `.cursor/agents/<name>.md` (Task `subagent_type` = YAML `name:`). Studio ops skills stay with Amigo.

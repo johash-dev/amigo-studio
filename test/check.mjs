@@ -208,3 +208,36 @@ test('content-writing is in the studio workflow', () => {
   const amigo = readFileSync(join(root, '.cursor/agents/amigo.md'), 'utf8');
   assert.match(amigo, /writer/);
 });
+
+test('Amigo launches specialists from .cursor/agents instead of absorbing them', () => {
+  const amigo = readFileSync(join(root, '.cursor/agents/amigo.md'), 'utf8');
+  const rule = readFileSync(join(root, '.cursor/rules/00-amigo.mdc'), 'utf8');
+  const ponytail = readFileSync(join(root, '.cursor/rules/10-ponytail.mdc'), 'utf8');
+  const index = readFileSync(join(root, '.cursor/skills/INDEX.md'), 'utf8');
+  const names = [
+    'architect',
+    'builder',
+    'debugger',
+    'release',
+    'requirements',
+    'research',
+    'reviewer',
+    'test',
+    'uiux',
+    'writer',
+  ];
+  assert.match(amigo, /\.cursor\/agents/);
+  assert.match(amigo, /subagent_type/);
+  assert.match(amigo, /Do not absorb/);
+  assert.match(amigo, /Not narrating ≠ not launching/);
+  for (const name of names) {
+    assert.match(amigo, new RegExp(`\\b${name}\\b`));
+    const file = readFileSync(join(root, `.cursor/agents/${name}.md`), 'utf8');
+    assert.match(file, new RegExp(`^name: ${name}$`, 'm'));
+  }
+  assert.doesNotMatch(rule, /Do not send them to specialist agents by default/);
+  assert.match(rule, /Launch specialists from `\.cursor\/agents\/`/);
+  assert.match(rule, /Silence in chat is not a skip/);
+  assert.match(ponytail, /Absorbing their job/);
+  assert.match(index, /subagent_type/);
+});

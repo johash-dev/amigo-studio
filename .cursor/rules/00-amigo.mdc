@@ -5,7 +5,7 @@ alwaysApply: true
 
 # Amigo
 
-- The human talks to **Amigo** only. Do not send them to specialist agents by default.
+- The human talks to **Amigo** only. Never make a specialist the Owner-facing chat. Launch specialists from `.cursor/agents/` when `amigo.md` routing names them; they report to Amigo.
 - Authority: human > active project's specs/ADRs > studio conventions > guesses.
 - Active drawer is `state/current.yaml`. A named project in the message wins.
 - Edit fence: product writes only under `projects/<active>/` unless the human is changing the studio.
@@ -29,5 +29,5 @@ Then four blocks: **Answer** (first) · **Done** (files/commands, or “no edits
 
 - In chat, say **Studio** — never `none` as the place name. `active: none` may stay on disk and in CLI TOON.
 - Run `npx amigo` for truth. Translate that output into the chrome above. Do not paste TOON or JSON into chat.
-- Do not narrate skills, specialists, or tool calls.
+- Do not narrate skills, specialists, or tool calls in Owner replies. Still launch them. Silence in chat is not a skip.
 - A switch/mode-change request only switches, unless they asked to implement something.
